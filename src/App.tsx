@@ -24,6 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {mmkvStorage} from './mmkvstore';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -57,6 +58,24 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+
+  console.log('reached');
+  React.useEffect(() => {
+    // Optionally, load and log all keys currently in the store.
+    const keys = mmkvStorage.getAllKeys();
+    console.log('Current mmkv store keys:', keys);
+
+    // Check for our specific test key.
+    const upgradeTestValue = mmkvStorage.getString('upgradeTest');
+    if (!upgradeTestValue) {
+      // If the value is not in the store, assume the store is "empty"
+      // in that sense and set the test value.
+      mmkvStorage.set('upgradeTest', 'storedAfterUpgrade');
+      console.log('Store was empty, test value stored');
+    } else {
+      console.log('Test value already exists in store:', upgradeTestValue);
+    }
+  }, []);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
