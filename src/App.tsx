@@ -59,7 +59,6 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  console.log('reached');
   React.useEffect(() => {
     // Optionally, load and log all keys currently in the store.
     const keys = mmkvStorage.getAllKeys();
